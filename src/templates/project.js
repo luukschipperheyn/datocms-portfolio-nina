@@ -7,39 +7,36 @@ import Layout from "../components/layout"
 
 export default ({ data }) => (
   <Layout>
-    <article className="sheet">
-      <HelmetDatoCms seo={data.datoCmsProject.seoMetaTags} />
-      <div className="sheet__inner">
-        <h1 className="sheet__title">{data.datoCmsProject.title}</h1>
-        <div className="sheet__slider">
-          <Slider infinite={true} speed={500} slidesToShow={1} slidesToScroll={1} dots={true} arrows={true}>
-            {data.datoCmsProject.gallery.map(({ fluid }) => (
-              <img alt={data.datoCmsProject.title} key={fluid.src} src={fluid.src} />
-            ))}
-          </Slider>
-        </div>
-        {
-          data.datoCmsProject.content.map(contentNode => {
-            switch (contentNode.model.name) {
-              case 'paragraph':
-                return <div dangerouslySetInnerHTML={{ __html: contentNode.paragraphNode.childMarkdownRemark.html }} />
-                case 'slideshow':       
-                  return <div>
-                    <Slider infinite={true} speed={500} slidesToShow={1} arrows={true}>
-                      {contentNode.gallery.map(({ fluid }) => (
-                        <img alt={data.datoCmsProject.title} key={fluid.src} src={fluid.src} />
-                      ))}
-                    </Slider>
-                  </div>
-            }
+    <HelmetDatoCms seo={data.datoCmsProject.seoMetaTags} />
+    <section class="main">
+      <ul class="work--feed mix-margin-n">
+        <li class="col-1-3">
+          <span class="heading-w">
+            <span class="spec">Kana Talo,</span>
+            <span class="location sup">Porovesi, 2018, Complete</span>
+          </span>
+          {
+            data.datoCmsProject.content.map(contentNode => {
+              switch (contentNode.model.name) {
+                case 'paragraph':
+                  return <div dangerouslySetInnerHTML={{ __html: contentNode.paragraphNode.childMarkdownRemark.html }} />
+                  case 'image':       
+                    return <div>
+                      <img alt={data.datoCmsProject.title} key={contentNode.image.fluid.src} src={contentNode.image.fluid.src} />
+                    </div>
+              }
+            })
           }
-          )
-        }
-        <div className="sheet__gallery">
+        </li>
+
+        <li class="col-2-3">
           <Img fluid={data.datoCmsProject.coverImage.fluid} />
-        </div>
-      </div>
-    </article>
+          {data.datoCmsProject.gallery.map(({ fluid }) => (
+            <img alt={data.datoCmsProject.title} key={fluid.src} src={fluid.src} />
+          ))}
+        </li>
+      </ul>
+    </section>
   </Layout>
 )
 
@@ -73,14 +70,14 @@ export const query = graphql`
             }
           }
         }
-        ... on DatoCmsSlideshow {
-          id
+        ... on DatoCmsImage {
           model {
             name
           }
-          gallery {
-            fluid(maxWidth: 200, imgixParams: { fm: "jpg", auto: "compress" }) {
-              src
+          image {
+            url
+            fluid(maxWidth: 600, imgixParams: { fm: "jpg", auto: "compress" }) {
+              ...GatsbyDatoCmsSizes
             }
           }
         }

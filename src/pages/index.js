@@ -1,31 +1,55 @@
-import React from 'react'
-import { Link, graphql } from 'gatsby'
-import Masonry from 'react-masonry-component'
-import Img from 'gatsby-image'
-import Layout from "../components/layout"
+import React from "react";
+import { Link, graphql } from "gatsby";
+import Masonry from "react-masonry-component";
+import Img from "gatsby-image";
+import Layout from "../components/layout";
+
+const tileSizes = [
+  "m",
+  "l",
+  "m",
+  "m",
+  "m",
+  "m",
+  "l",
+  "m",
+  "m",
+  "s",
+  "m",
+  "m",
+  "s",
+  "l",
+  "m",
+  "l"
+];
 
 const IndexPage = ({ data }) => (
   <Layout>
-    <Masonry className="showcase">
-      {data.allDatoCmsProject.edges.map(({ node: project }) => (
-        <div key={project.id} className="showcase__item">
-          <figure className="card">
-            <Link to={`/projects/${project.slug}`} className="card__image">
+    <section className="main">
+      <ul className="work--feed mix-margin">
+        {data.allDatoCmsProject.edges.map(({ node: project }, index) => (
+          <li
+            className={`work--item cba_${tileSizes[index % tileSizes.length]}`}
+          >
+            <Link to={`/projects/${project.slug}`}>
               <Img fluid={project.coverImage.fluid} />
+              <div className="meta">
+                <span className="title">{project.title}</span>
+                {project.location && (
+                  <span>
+                    , <span className="location sup"> {project.location}</span>
+                  </span>
+                )}
+              </div>
             </Link>
-            <figcaption className="card__caption">
-              <h6 className="card__title">
-                <Link to={`/projects/${project.slug}`}>{project.title}</Link>
-              </h6>
-            </figcaption>
-          </figure>
-        </div>
-      ))}
-    </Masonry>
+          </li>
+        ))}
+      </ul>
+    </section>
   </Layout>
-)
+);
 
-export default IndexPage
+export default IndexPage;
 
 export const query = graphql`
   query IndexQuery {
@@ -34,14 +58,15 @@ export const query = graphql`
         node {
           id
           title
+          location
           slug
           coverImage {
-            fluid(maxWidth: 450, imgixParams: { fm: "jpg", auto: "compress" }) {
-              ...GatsbyDatoCmsSizes
+            fluid(maxWidth: 400, imgixParams: { fm: "jpg", auto: "compress" }) {
+              ...GatsbyDatoCmsFluid
             }
           }
         }
       }
     }
   }
-`
+`;

@@ -6,22 +6,31 @@ import Layout from "../components/layout"
 
 const About = ({ data: { about } }) => (
   <Layout>
-    <article className="sheet">
-      <HelmetDatoCms seo={about.seoMetaTags} />
-      <div className="sheet__inner">
-        <h1 className="sheet__title">{about.title}</h1>
-        <p className="sheet__lead">{about.subtitle}</p>
-        <div className="sheet__gallery">
+    <HelmetDatoCms seo={about.seoMetaTags} />
+    <section class="main">
+      <ul class="work--feed">
+        <li class="col-1-3">
+<span class="heading-w"><span class="spec">{about.title}</span></span>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: about.studioNode.childMarkdownRemark.html,
+            }}
+          />
+        </li>
+        <li class="col-1-3">
           <Img fluid={about.photo.fluid} />
-        </div>
-        <div
-          className="sheet__body"
-          dangerouslySetInnerHTML={{
-            __html: about.bioNode.childMarkdownRemark.html,
-          }}
-        />
-      </div>
-    </article>
+          <span class="heading-w">
+            <span class="spec">{about.name}</span>
+            <span class="sup">{about.nameSubtitle}</span>
+          </span>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: about.bioNode.childMarkdownRemark.html,
+            }}
+          />
+        </li>
+      </ul>
+    </section>
   </Layout>
 )
 
@@ -34,10 +43,16 @@ export const query = graphql`
         ...GatsbyDatoCmsSeoMetaTags
       }
       title
-      subtitle
+      name
+      nameSubtitle
       photo {
         fluid(maxWidth: 600, imgixParams: { fm: "jpg", auto: "compress" }) {
           ...GatsbyDatoCmsSizes
+        }
+      }
+      studioNode {
+        childMarkdownRemark {
+          html
         }
       }
       bioNode {

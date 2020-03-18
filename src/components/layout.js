@@ -47,61 +47,57 @@ const TemplateWrapper = ({ children }) => {
             favicon={data.datoCmsSite.faviconMetaTags}
             seo={data.datoCmsHome.seoMetaTags}
           />
-          <div className="container__sidebar">
-            <div className="sidebar">
-              <h6 className="sidebar__title">
+
+          <header className="global--nav nav-down">
+            <ul className="nav-wide">
+              <li className="nav--item logo underline">
                 <Link to="/">{data.datoCmsSite.globalSeo.siteName}</Link>
-              </h6>
-              <div
-                className="sidebar__intro"
-                dangerouslySetInnerHTML={{
-                  __html:
-                    data.datoCmsHome.introTextNode.childMarkdownRemark.html
+              </li>
+              <li className="nav--item desktop">
+                <Link to="/">Projects</Link>
+              </li>
+              <li className="nav--item desktop">
+                <Link to="/about">About</Link>
+              </li>
+            </ul>
+
+            <button
+              className="nav--item menu-toggle mobile"
+              onClick={e => {
+                e.preventDefault();
+                setShowMenu(!showMenu);
+              }}
+            >
+              Menu
+            </button>
+          </header>
+
+          {showMenu && (
+            <div className="global--nav--full">
+              <button
+                className="nav--item menu-toggle mobile"
+                onClick={e => {
+                  e.preventDefault();
+                  setShowMenu(!showMenu);
                 }}
-              />
-              <ul className="sidebar__menu">
-                <li>
-                  <Link to="/">Home</Link>
+              >
+                Menu
+              </button>
+              <ul className="nav--full">
+                <li className="nav--item">
+                  <Link to="/">Projects</Link>
                 </li>
-                <li>
+                <li className="nav--item">
                   <Link to="/about">About</Link>
                 </li>
               </ul>
-              <p className="sidebar__social">
-                {data.allDatoCmsSocialProfile.edges.map(({ node: profile }) => (
-                  <a
-                    key={profile.profileType}
-                    href={profile.url}
-                    target="blank"
-                    className={`social social--${profile.profileType.toLowerCase()}`}
-                  >
-                    {" "}
-                  </a>
-                ))}
-              </p>
-              <div className="sidebar__copyright">
-                {data.datoCmsHome.copyright}
-              </div>
             </div>
-          </div>
-          <div className="container__body">
-            <div className="container__mobile-header">
-              <div className="mobile-header">
-                <div className="mobile-header__menu">
-                  <a
-                    href="#"
-                    onClick={e => {
-                      e.preventDefault();
-                      setShowMenu(!showMenu);
-                    }}
-                  />
-                </div>
-                <div className="mobile-header__logo">
-                  <Link to="/">{data.datoCmsSite.globalSeo.siteName}</Link>
-                </div>
-              </div>
+          )}
+
+          <div class="wrap container" role="document">
+            <div class="content row">
+              <main class="main">{children}</main>
             </div>
-            {children}
           </div>
         </div>
       )}
