@@ -12,8 +12,8 @@ export default ({ data }) => (
       <ul class="work--feed mix-margin-n">
         <li class="col-1-3">
           <span class="heading-w">
-            <span class="spec">Kana Talo,</span>
-            <span class="location sup">Porovesi, 2018, Complete</span>
+            <span class="spec">{data.datoCmsProject.title},</span>
+            <span class="location sup"> {data.datoCmsProject.location}</span>
           </span>
           {data.datoCmsProject.content.map(contentNode => {
             switch (contentNode.model.name) {
@@ -53,6 +53,7 @@ export const query = graphql`
         ...GatsbyDatoCmsSeoMetaTags
       }
       title
+      location
       gallery {
         fluid(maxWidth: 800, imgixParams: { fm: "jpg", auto: "compress" }) {
           src
