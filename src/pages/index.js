@@ -61,7 +61,10 @@ export const query = graphql`
           location
           slug
           coverImage {
-            fluid(maxWidth: 400, imgixParams: { fm: "jpg", auto: "compress" }) {
+            fluid(
+              maxWidth: 1000
+              imgixParams: { fm: "jpg", auto: "compress" }
+            ) {
               ...GatsbyDatoCmsFluid
             }
           }

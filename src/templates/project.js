@@ -1,9 +1,9 @@
-import React from 'react'
-import Slider from 'react-slick'
-import { HelmetDatoCms } from 'gatsby-source-datocms'
-import Img from 'gatsby-image'
-import { graphql } from 'gatsby'
-import Layout from "../components/layout"
+import React from "react";
+import Slider from "react-slick";
+import { HelmetDatoCms } from "gatsby-source-datocms";
+import Img from "gatsby-image";
+import { graphql } from "gatsby";
+import Layout from "../components/layout";
 
 export default ({ data }) => (
   <Layout>
@@ -15,30 +15,36 @@ export default ({ data }) => (
             <span class="spec">Kana Talo,</span>
             <span class="location sup">Porovesi, 2018, Complete</span>
           </span>
-          {
-            data.datoCmsProject.content.map(contentNode => {
-              switch (contentNode.model.name) {
-                case 'paragraph':
-                  return <div dangerouslySetInnerHTML={{ __html: contentNode.paragraphNode.childMarkdownRemark.html }} />
-                  case 'image':       
-                    return <div>
-                      <img alt={data.datoCmsProject.title} key={contentNode.image.fluid.src} src={contentNode.image.fluid.src} />
-                    </div>
-              }
-            })
-          }
+          {data.datoCmsProject.content.map(contentNode => {
+            switch (contentNode.model.name) {
+              case "paragraph":
+                return (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: contentNode.paragraphNode.childMarkdownRemark.html
+                    }}
+                  />
+                );
+              case "image":
+                return (
+                  <div>
+                    <Img fluid={contentNode.image.fluid} />
+                  </div>
+                );
+            }
+          })}
         </li>
 
         <li class="col-2-3">
           <Img fluid={data.datoCmsProject.coverImage.fluid} />
           {data.datoCmsProject.gallery.map(({ fluid }) => (
-            <img alt={data.datoCmsProject.title} key={fluid.src} src={fluid.src} />
+            <Img fluid={fluid} />
           ))}
         </li>
       </ul>
     </section>
   </Layout>
-)
+);
 
 export const query = graphql`
   query ProjectQuery($slug: String!) {
@@ -48,13 +54,13 @@ export const query = graphql`
       }
       title
       gallery {
-        fluid(maxWidth: 200, imgixParams: { fm: "jpg", auto: "compress" }) {
+        fluid(maxWidth: 800, imgixParams: { fm: "jpg", auto: "compress" }) {
           src
         }
       }
       coverImage {
         url
-        fluid(maxWidth: 600, imgixParams: { fm: "jpg", auto: "compress" }) {
+        fluid(maxWidth: 800, imgixParams: { fm: "jpg", auto: "compress" }) {
           ...GatsbyDatoCmsSizes
         }
       }
@@ -76,7 +82,7 @@ export const query = graphql`
           }
           image {
             url
-            fluid(maxWidth: 600, imgixParams: { fm: "jpg", auto: "compress" }) {
+            fluid(maxWidth: 800, imgixParams: { fm: "jpg", auto: "compress" }) {
               ...GatsbyDatoCmsSizes
             }
           }
@@ -84,4 +90,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;
