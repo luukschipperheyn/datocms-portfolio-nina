@@ -1,8 +1,8 @@
-import React from 'react'
-import { graphql } from 'gatsby'
-import { HelmetDatoCms } from 'gatsby-source-datocms'
-import Img from 'gatsby-image'
-import Layout from "../components/layout"
+import React from "react";
+import { graphql } from "gatsby";
+import { HelmetDatoCms } from "gatsby-source-datocms";
+import Img from "gatsby-image";
+import Layout from "../components/layout";
 
 const About = ({ data: { about } }) => (
   <Layout>
@@ -10,10 +10,12 @@ const About = ({ data: { about } }) => (
     <section class="main">
       <ul class="work--feed">
         <li class="col-1-3">
-<span class="heading-w"><span class="spec">{about.title}</span></span>
+          <span class="heading-w">
+            <span class="spec">{about.title}</span>
+          </span>
           <div
             dangerouslySetInnerHTML={{
-              __html: about.studioNode.childMarkdownRemark.html,
+              __html: about.studioNode.childMarkdownRemark.html
             }}
           />
         </li>
@@ -25,20 +27,20 @@ const About = ({ data: { about } }) => (
           </span>
           <div
             dangerouslySetInnerHTML={{
-              __html: about.bioNode.childMarkdownRemark.html,
+              __html: about.bioNode.childMarkdownRemark.html
             }}
           />
         </li>
       </ul>
     </section>
   </Layout>
-)
+);
 
-export default About
+export default About;
 
 export const query = graphql`
   query AboutQuery {
-    about: datoCmsAboutPage {
+    about: datoCmsAbout {
       seoMetaTags {
         ...GatsbyDatoCmsSeoMetaTags
       }
@@ -62,4 +64,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;
