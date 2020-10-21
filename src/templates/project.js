@@ -15,13 +15,14 @@ export default ({ data }) => (
             <span class="spec">{data.datoCmsProject.title},</span>
             <span class="location sup"> {data.datoCmsProject.location}</span>
           </span>
-          {data.datoCmsProject.content.map(contentNode => {
+          {data.datoCmsProject.content.map((contentNode) => {
             switch (contentNode.model.name) {
               case "paragraph":
                 return (
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: contentNode.paragraphNode.childMarkdownRemark.html
+                      __html:
+                        contentNode.paragraphNode.childMarkdownRemark.html,
                     }}
                   />
                 );
@@ -56,7 +57,7 @@ export const query = graphql`
       location
       gallery {
         fluid(maxWidth: 800, imgixParams: { fm: "jpg", auto: "compress" }) {
-          src
+          ...GatsbyDatoCmsSizes
         }
       }
       coverImage {
